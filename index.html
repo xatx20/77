@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>资源导航中心</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+		}
+
+		body {
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 20px;
+			background-color: #070916;
+			position: relative;
+			overflow: hidden;
+		}
+		/* 背景渐变光晕 */
+		.bg-glow-1 {
+			position: fixed;
+			width: 550px;
+			height: 550px;
+			background: radial-gradient(circle, rgba(139, 92, 246, 0.25), transparent 72%);
+			top: -180px;
+			left: -140px;
+			filter: blur(100px);
+			z-index: -1;
+		}
+		.bg-glow-2 {
+			position: fixed;
+			width: 550px;
+			height: 550px;
+			background: radial-gradient(circle, rgba(20, 184, 166, 0.2), transparent 72%);
+			bottom: -200px;
+			right: -140px;
+			filter: blur(100px);
+			z-index: -1;
+		}
+
+		.wrap-card {
+			width: 100%;
+			max-width: 520px;
+			position: relative;
+			border-radius: 30px;
+			background: rgba(255, 255, 255, 0.04);
+			backdrop-filter: blur(24px);
+			padding: 56px 44px;
+			overflow: hidden;
+		}
+		/* 旋转霓虹外边框 */
+		.wrap-card::before {
+			content: "";
+			position: absolute;
+			top: -50%;
+			left: -50%;
+			width: 200%;
+			height: 200%;
+			background: conic-gradient(#8b5cf6, #14b8a6, #ec4899, #8b5cf6);
+			animation: rotateBorder 6s linear infinite;
+			z-index: -1;
+		}
+		.wrap-card::after {
+			content: "";
+			position: absolute;
+			inset: 3px;
+			background: #070916;
+			border-radius: 28px;
+			z-index: -1;
+		}
+		@keyframes rotateBorder {
+			100% {transform: rotate(360deg);}
+		}
+
+		/* 顶部滚动公告栏 */
+		.scroll-notice {
+			width: 100%;
+			overflow: hidden;
+			background: rgba(236, 72, 153, 0.12);
+			border: 1px solid rgba(236, 72, 153, 0.35);
+			border-radius: 12px;
+			padding: 10px 0;
+			margin-bottom: 36px;
+		}
+		.scroll-notice span {
+			display: inline-block;
+			white-space: nowrap;
+			color: #f472b6;
+			font-size: 14px;
+			animation: scrollMove 12s linear infinite;
+		}
+		@keyframes scrollMove {
+			0% {transform: translateX(100%);}
+			100% {transform: translateX(-100%);}
+		}
+
+		.title-box {
+			text-align: center;
+			margin-bottom: 36px;
+		}
+		h1 {
+			font-size: 40px;
+			font-weight: 800;
+			background: linear-gradient(90deg, #c4b5fd, #5eead4, #f9a8d4);
+			background-size: 200% auto;
+			animation: titleGradient 4s linear infinite;
+			-webkit-background-clip: text;
+			color: transparent;
+			margin-bottom: 14px;
+		}
+		@keyframes titleGradient {
+			0% {background-position: 0% center;}
+			100% {background-position: 200% center;}
+		}
+		.tip-desc {
+			color: #94a3b8;
+			font-size: 15px;
+		}
+
+		.link-btn {
+			display: block;
+			text-decoration: none;
+			text-align: center;
+			padding: 26px 20px;
+			border-radius: 22px;
+			font-size: 20px;
+			font-weight: 600;
+			margin-bottom: 30px;
+			position: relative;
+			overflow: hidden;
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid rgba(255, 255, 255, 0.14);
+			color: #ffffff;
+			transition: 0.4s all ease;
+		}
+		/* 闪烁领取角标 */
+		.link-btn .badge {
+			position: absolute;
+			top: 12px;
+			right: 16px;
+			background: linear-gradient(135deg,#ec4899,#8b5cf6);
+			color: #fff;
+			font-size: 12px;
+			padding: 3px 10px;
+			border-radius: 10px;
+			animation: badgeBlink 1.8s ease-in-out infinite;
+		}
+		@keyframes badgeBlink {
+			0%,100% {opacity:1;}
+			50% {opacity:0.6;}
+		}
+		/* 按钮扫光 */
+		.link-btn::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
+			transition: left 0.7s;
+		}
+		.link-btn:hover::before {
+			left: 100%;
+		}
+		.link-btn:hover {
+			transform: translateY(-8px) scale(1.025);
+			border-color: rgba(139, 92, 246, 0.55);
+			box-shadow: 0 14px 50px rgba(139, 92, 246, 0.35);
+		}
+
+		.footer-text {
+			margin-top: 50px;
+			text-align: center;
+			font-size: 13px;
+			color: #64748b;
+			line-height: 1.7;
+		}
+	</style>
+</head>
+<body>
+	<div class="bg-glow-1"></div>
+	<div class="bg-glow-2"></div>
+	<div class="wrap-card">
+		<div class="title-box">
+			<h1>资源导航中心</h1>
+			<div class="tip-desc">点击按钮前往对应渠道领取资源</div>
+		</div>
+
+		<!-- 滚动公告提醒 -->
+		<div class="scroll-notice">
+			<span>⚠️ 资源定期整理更新，按需自取</span>
+		</div>
+
+		<!-- 链接自行填入href=""引号内部 -->
+		<a href="https://vlink.cc/love7" target="_blank" class="link-btn">
+			📂 资源访问入口
+			<span class="badge">立即领取</span>
+		</a>
+
+		<a href="https://pd.qq.com/s/3ujucb3ox?b=9" target="_blank" class="link-btn">
+			💬 QQ频道社区
+			<span class="badge">加入领取</span>
+		</a>
+
+		<div class="footer-text">
+			所有链接均在新标签页打开<br>请遵守相关网络规则
+		</div>
+	</div>
+</body>
+</html>
